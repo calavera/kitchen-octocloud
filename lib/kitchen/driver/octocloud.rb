@@ -16,11 +16,11 @@ module Kitchen
 
         info("Octocloud instance <#{state[:server_id]}> created.")
         server.wait_for { print "."; ready? && public_ip_address }
-        puts "(server ready)"
+        print " (server ready)\n"
 
         state[:hostname] = server.public_ip_address
         wait_for_sshd(state[:hostname])
-        puts "(ssh ready)"
+        print " (ssh ready)\n"
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
       end
@@ -28,7 +28,7 @@ module Kitchen
       def destroy(state)
         return if state[:server_id].nil?
 
-        server = connection.servers.get(state[:server_id])
+        server = compute.servers.get(state[:server_id])
         server.destroy unless server.nil?
         info("Octocloud instance <#{state[:server_id]}> destroyed.")
         state.delete(:server_id)
