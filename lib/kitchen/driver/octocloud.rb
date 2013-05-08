@@ -47,7 +47,8 @@ module Kitchen
                                :source => config[:cube_url])
         end
 
-        compute.servers.create(:id => config[:cube_name], :cube => config[:cube_name])
+        compute.servers.get(config[:cube_name]) ||
+          compute.servers.create(:id => config[:cube_name], :cube => config[:cube_name])
       end
     end
   end
