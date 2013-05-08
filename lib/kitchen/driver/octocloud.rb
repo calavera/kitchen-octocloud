@@ -28,7 +28,7 @@ module Kitchen
       def destroy(state)
         return if state[:server_id].nil?
 
-        server = compute.servers.get(state[:server_id])
+        server = connection.servers.get(state[:server_id])
         server.destroy unless server.nil?
         info("Octocloud instance <#{state[:server_id]}> destroyed.")
         state.delete(:server_id)
